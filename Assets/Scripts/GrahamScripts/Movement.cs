@@ -6,6 +6,7 @@ using System.Collections;
 // Date Created: 09/10/2015
 // Brief: Basic Control System for the character in the 2D Platformer
 //      Includes a basic left/right movement and a jump mechanic
+//      Includes an implementation to make the user move with the platform
 //////////////////////////////////////////////////////////////////////
 
 public class Movement : MonoBehaviour {
@@ -13,9 +14,31 @@ public class Movement : MonoBehaviour {
     private bool m_LeftMoving = false;
     private bool m_RightMoving = false;
 
+    private Transform m_ParentTransform;
+
+    void Start()
+    {
+        m_ParentTransform = this.gameObject.transform.parent;
+    }
+
     void Update () {
         ProcessInput();
         MovementUpdate();
+    }
+
+
+    void OnCollisionStay(Collision a_CollisionInfo)
+    {
+        // When the Player is setting on a moving platform, its position relative to the platform will stay
+        // until it is no longer in contact.
+        if(a_CollisionInfo.gameObject.tag == "Platform")
+        {
+            this.gameObject.transform.SetParent(a_CollisionInfo.gameObject.transform,true);
+        }
+        else
+        {
+            this.gameObject.transform.SetParent(m_ParentTransform, true);
+        }
     }
 
     void ProcessInput()

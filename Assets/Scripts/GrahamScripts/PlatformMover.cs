@@ -36,7 +36,6 @@ public class PlatformMover : MonoBehaviour {
     {
         get { return m_MovingReverse; }
     }
-
     void Start()
     {
         m_DirMovement.Normalize();
@@ -50,7 +49,7 @@ public class PlatformMover : MonoBehaviour {
         if (m_MovingForward)
         {
             // Frame Independant movement in the direction set by public variables.
-            this.gameObject.transform.position += (m_DirMovement * m_MoveSpeed)*Time.deltaTime;
+            this.gameObject.transform.position += (m_DirMovement * m_MoveSpeed) * Time.deltaTime;
             // If it reaches the end position
             if (this.gameObject.GetComponent<BoxCollider>().bounds.Contains(m_EndPosition))
             {
