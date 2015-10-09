@@ -1,6 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//////////////////////////////////////////////////////////////////////
+// Author: Graham Johnston
+// Date Created: 09/10/2015
+// Brief: Basic Platform Moving Script
+//      Moves the platform in one direction, them moves it reversing in 
+//      the opposite direction then repeats
+//      Direction, speed and distance is all customisable via public variables
+//////////////////////////////////////////////////////////////////////
+
 public class PlatformMover : MonoBehaviour {
 
     private Vector3 m_StartPosition;
@@ -16,8 +25,9 @@ public class PlatformMover : MonoBehaviour {
 
     [Tooltip("The Direction the platform moves, will be normalised at runtime")]
     public Vector3 m_DirMovement = new Vector3(0, 1, 0);
-    private Vector3 m_DirMovementReverse;
+    private Vector3 m_DirMovementReverse; // Calculated in Start
 
+    // giving other scripts access to whether the platform is moving
     public bool isMovingForward
     {
         get { return m_MovingForward; }
@@ -39,6 +49,7 @@ public class PlatformMover : MonoBehaviour {
 	void Update () {
         if (m_MovingForward)
         {
+            // Frame Independant movement in the direction set by public variables.
             this.gameObject.transform.position += (m_DirMovement * m_MoveSpeed)*Time.deltaTime;
             // If it reaches the end position
             if (this.gameObject.GetComponent<BoxCollider>().bounds.Contains(m_EndPosition))
@@ -49,6 +60,7 @@ public class PlatformMover : MonoBehaviour {
         }
         else if (m_MovingReverse)
         {
+            // Frame Independant movement in the reverse direction to the direction set by public variables
             this.gameObject.transform.position += (m_DirMovementReverse * m_MoveSpeed) * Time.deltaTime;
             // If it reaches the start position
             if (this.gameObject.GetComponent<BoxCollider>().bounds.Contains(m_StartPosition))

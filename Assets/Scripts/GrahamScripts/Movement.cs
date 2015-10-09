@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Movement : MonoBehaviour {
+//////////////////////////////////////////////////////////////////////
+// Author: Graham Johnston
+// Date Created: 09/10/2015
+// Brief: Basic Control System for the character in the 2D Platformer
+//      Includes a basic left/right movement and a jump mechanic
+//////////////////////////////////////////////////////////////////////
 
-    // Update is called once per frame
+public class Movement : MonoBehaviour {
 
     private bool m_LeftMoving = false;
     private bool m_RightMoving = false;
-    private bool m_UpMoving = false;
-    private bool m_DownMoving = false;
 
     void Update () {
         ProcessInput();
@@ -17,6 +20,7 @@ public class Movement : MonoBehaviour {
 
     void ProcessInput()
     {
+        // Essentially sets a flag to true whenever the key is pressed and not yet released
         if (Input.GetKeyDown(KeyCode.A))
         {
             m_RightMoving = true;
@@ -35,43 +39,26 @@ public class Movement : MonoBehaviour {
             m_LeftMoving = false;
         }
 
+        // Triggers the jump force when the up key is pressed
         if(Input.GetKeyDown(KeyCode.W))
         {
             this.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, 400, 0));
-            //m_UpMoving = true;
-        }
-        else if(Input.GetKeyUp(KeyCode.W))
-        {
-            //m_UpMoving = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            m_DownMoving = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.S))
-        {
-            m_DownMoving = false;
         }
     }
 
     void MovementUpdate()
     {
+        // Essentially applies a constant force while the flags are true, which happens
+        //  while the key is held down
         if (m_LeftMoving)
         {
-            this.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(10, 0, 0));
+            // A Left force, made frame independant
+            this.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(600, 1, 0)* Time.deltaTime);
         }
         if(m_RightMoving)
         {
-            this.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(-10, 0, 0));
+            // A Right force, made frame independant
+            this.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(-600, 0, 0) * Time.deltaTime);
         }
-        //if(m_UpMoving)
-        //{
-        //    this.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, 500, 0));
-        //}
-        //if(m_DownMoving)
-        //{
-        //    this.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, -10, 0));
-        //}
     }
 }
