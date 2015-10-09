@@ -6,50 +6,55 @@ public class PlatformMover : MonoBehaviour {
     private Vector3 m_StartPosition;
     private Vector3 m_EndPosition;
 
+    [Tooltip("The Speed at which the platform moves up/down")]
+    public float m_MoveSpeed = 1.0f;
+    [Tooltip("The Distance from its current position it moves")]
     public float m_DistanceToMovement = 5.0f;
 
-    private bool m_MovingUp = true;
-    private bool m_MovingDown = false;
+    private bool m_MovingForward = true;
+    private bool m_MovingReverse = false;
 
-    public float m_MoveSpeed = 1.0f;
+    [Tooltip("The Direction the platform moves, will be normalised at runtime")]
+    public Vector3 m_DirMovement = new Vector3(0, 1, 0);
+    private Vector3 m_DirMovementReverse;
 
-    private Vector3 m_UpDir = new Vector3(0, 1, 0);
-    private Vector3 m_DownDir = new Vector3(0, -1, 0);
-
-    public bool isMovingDown
+    public bool isMovingForward
     {
-        get { return m_MovingDown; }
+        get { return m_MovingForward; }
     }
-    public bool isMovingUp
+    public bool isMovingReverse
     {
-        get { return m_MovingUp; }
+        get { return m_MovingReverse; }
     }
 
     void Start()
     {
+        m_DirMovement.Normalize();
+        m_DirMovementReverse = new Vector3(-m_DirMovement.x, -m_DirMovement.y,0);
+
         m_StartPosition = this.gameObject.transform.position;
-        m_EndPosition = m_StartPosition + new Vector3(0, m_DistanceToMovement, 0);
+        m_EndPosition = m_StartPosition + m_DirMovement * m_DistanceToMovement;
     }
 
 	void Update () {
-        if (m_MovingUp)
+        if (m_MovingForward)
         {
-            this.gameObject.transform.position += (m_UpDir * m_MoveSpeed)*Time.deltaTime;
-
+            this.gameObject.transform.position += (m_DirMovement * m_MoveSpeed)*Time.deltaTime;
+            // If it reaches the end position
             if (this.gameObject.GetComponent<BoxCollider>().bounds.Contains(m_EndPosition))
             {
-                m_MovingUp = false;
-                m_MovingDown = true;
+                m_MovingForward = false;
+                m_MovingReverse = true;
             }
         }
-        else if (m_MovingDown)
+        else if (m_MovingReverse)
         {
-            this.gameObject.transform.position += (m_DownDir * m_MoveSpeed) * Time.deltaTime;
-            //if reached desitination m_MovingUp = false;
+            this.gameObject.transform.position += (m_DirMovementReverse * m_MoveSpeed) * Time.deltaTime;
+            // If it reaches the start position
             if (this.gameObject.GetComponent<BoxCollider>().bounds.Contains(m_StartPosition))
             {
-                m_MovingDown = false;
-                m_MovingUp = true;
+                m_MovingReverse = false;
+                m_MovingForward = true;
             }
         }
 
