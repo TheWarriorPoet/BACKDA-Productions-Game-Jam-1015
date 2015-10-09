@@ -15,8 +15,9 @@ using System.Collections;
 public class BarScript : MonoBehaviour {
 
     private float m_PercentageAmount = 1.0f;
-    public float amount // Percentage between 0.0 and 1.0.
+    public float percentageValue // Percentage between 0.0 and 1.0.
     {
+        set { m_PercentageAmount = value; }
         get { return m_PercentageAmount; }
     }
     private float m_StartingWidth;
