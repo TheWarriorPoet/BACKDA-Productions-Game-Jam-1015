@@ -38,9 +38,6 @@ public class BarScript : MonoBehaviour {
     }
 	
 	void Update () {
-        if (m_PercentageAmount >= 1.0f) { m_PercentageAmount = 0.0f; }
-        m_PercentageAmount += 0.01f;
-
         //Clamp the amount to be a percentage between 0 and 1
         m_PercentageAmount = Mathf.Clamp(m_PercentageAmount, 0.0f, 1.0f);
 
