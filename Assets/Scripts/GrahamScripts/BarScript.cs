@@ -33,8 +33,6 @@ public class BarScript : MonoBehaviour {
         this.gameObject.GetComponent<RectTransform>().anchoredPosition = anchoredPos;
 
         m_StartingXPos = this.gameObject.GetComponent<RectTransform>().anchoredPosition.x;
-
-        // m_StartingXPos = this.gameObject.GetComponent<RectTransform>().anchoredPosition.x;
     }
 	
 	void Update () {
