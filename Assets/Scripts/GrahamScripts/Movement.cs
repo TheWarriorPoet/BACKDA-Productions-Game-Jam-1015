@@ -53,12 +53,15 @@ public class Movement : MonoBehaviour {
         if (m_LeftMoving)
         {
             // A Left force, made frame independant
+
             this.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(600, 1, 0)* Time.deltaTime);
+            Camera.main.transform.position += this.gameObject.GetComponent<Rigidbody>().velocity;
         }
         if(m_RightMoving)
         {
             // A Right force, made frame independant
             this.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(-600, 0, 0) * Time.deltaTime);
+            Camera.main.transform.position += this.gameObject.GetComponent<Rigidbody>().velocity;
         }
     }
 }
