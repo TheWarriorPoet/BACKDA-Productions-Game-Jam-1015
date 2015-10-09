@@ -24,13 +24,15 @@ public class SceneManager_MainGame : SceneManager_Base {
 
     // Global Health variable used by A Variety of Scripts to alter and retrieve health.
     // Check with other programmers before changing the name of the parameter, or youll break scripts
-    private int m_PlayerHealth = 100;
+    private int m_PlayerHealth = 50;
     public int playerHealth
     {
         get { return m_PlayerHealth; }
         // Value is clamped between min and max to prevent bugs
         set { m_PlayerHealth = Mathf.Clamp(value, m_MinHealth, m_MaxHealth); }
     }
+
+    public BarScript healthBar;
 
     // Use this for initialization
     void Start () {
@@ -39,6 +41,6 @@ public class SceneManager_MainGame : SceneManager_Base {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        healthBar.percentageValue = (float)m_PlayerHealth / (float)m_MaxHealth;
+    }
 }
