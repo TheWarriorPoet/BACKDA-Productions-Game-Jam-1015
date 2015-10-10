@@ -42,7 +42,6 @@ public class PlayerMovement : MonoBehaviour
         MovementUpdate();
     }
 
-
     void OnCollisionEnter2D(Collision2D a_CollisionInfo)
     {
         // When the Player is setting on a moving platform, its position relative to the platform will stay
