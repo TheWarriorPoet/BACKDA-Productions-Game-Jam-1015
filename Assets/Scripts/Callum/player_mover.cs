@@ -23,8 +23,8 @@ public class player_mover : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		_is_grounded = Physics2D.OverlapCircle(_ground_checker.position, 1.0f, (1 << 10) | (1 << 11) | (1 << 12));
-		Physics2D.IgnoreLayerCollision(9, 12, !_is_grounded || _rigid_body.velocity.y > 0);
+		var o = Physics2D.OverlapCircle(_ground_checker.position, 1.0f, (1 << 10) | (1 << 11) | (1 << 12));
+		Physics2D.IgnoreLayerCollision(9, 12, o.gameObject.layer != 12 || _rigid_body.velocity.y > 0);
 	}
 	
 	// Update is called once per frame

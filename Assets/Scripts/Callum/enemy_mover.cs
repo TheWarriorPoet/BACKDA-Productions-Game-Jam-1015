@@ -14,12 +14,22 @@ public class enemy_mover : MonoBehaviour {
 
 	private bool _going_left = true;
 	private bool _just_switched = false;
-	private bool _first_collision = false;
 	private Rigidbody2D _rb;
 
 	void Start () {
 		transform.SetParent(_platform.transform, true);
 		_rb = GetComponent<Rigidbody2D>();
+	}
+
+	void OnCollisionEnter(Collision other)
+	{
+		_rb.gravityScale = 0;
+		print (other.gameObject.name);
+	}
+
+	void OnCollisionExit(Collision other)
+	{
+		_rb.gravityScale = 1;
 	}
 
 	void FixedUpdate () {
