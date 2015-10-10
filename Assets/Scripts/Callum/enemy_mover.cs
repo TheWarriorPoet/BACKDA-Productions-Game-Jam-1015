@@ -44,8 +44,10 @@ public class enemy_mover : MonoBehaviour {
 	}
 	bool detect_ground()
 	{
-		Vector2 us = new Vector2(transform.position.x+(_going_left ? 0.5f : -0.5f), transform.position.y);
-		return (Physics2D.Raycast(us, new Vector2(us.x, us.y-2)).collider != null);
+		//terrible but gamejam!
+		Vector2 us = new Vector2(transform.position.x+(_going_left ?0.5f:-0.5f), transform.position.y);
+		//Debug.DrawRay(us, new Vector2((_going_left ? 1 : -1), -1).normalized, Color.green);
+		return (Physics2D.Raycast(us, new Vector2((_going_left ? -1 : 1), -1).normalized).collider != null);
 	}
 
 	void move()
