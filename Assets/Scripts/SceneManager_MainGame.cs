@@ -29,7 +29,7 @@ public class SceneManager_MainGame : SceneManager_Base {
     {
         get { return m_PlayerHealth; }
         // Value is clamped between min and max to prevent bugs
-        set { m_PlayerHealth = Mathf.Clamp(value, m_MinHealth, m_MaxHealth); }
+        set { m_PlayerHealth = Mathf.Clamp(value, m_MinHealth, m_MaxHealth);}
     }
 
     public BarScript healthBar;
@@ -41,6 +41,7 @@ public class SceneManager_MainGame : SceneManager_Base {
 	
 	// Update is called once per frame
 	void Update () {
+        //print(((float)m_PlayerHealth / (float)m_MaxHealth).ToString());
         healthBar.percentageValue = (float)m_PlayerHealth / (float)m_MaxHealth;
     }
 }
