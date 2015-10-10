@@ -27,22 +27,33 @@ public class OneWayCollider : MonoBehaviour {
 	}
 
 	void Update () {
-
-        // If we trigger the "above" trigger again and weve already disabled collision, enable the collision
-        if (m_CollisionDisabled == true && m_AboveTrigger.isAbove == true) 
-        {
-            m_CollisionDisabled = false;
-            Physics2D.IgnoreCollision(m_ColliderIgnoredObject, m_ColliderThisObject, false);
-        }
-	}
-
-    void OnCollisionEnter2D(Collision2D a_CollisionInfo)
-    {
-        if (!m_AboveTrigger.isAbove) // If they are not in contact with the "above" trigger
-        {
-            m_ColliderIgnoredObject = a_CollisionInfo.collider; // store the object so we can enable the collision again later.
-            Physics2D.IgnoreCollision(m_ColliderIgnoredObject, m_ColliderThisObject);
-            m_CollisionDisabled = true;
-        }
+        // A Slightly hacky but much simpler implementation of the old code i was using
+        // All it does is set the trigger to false while the collider above the platform
+        // is not being triggered.
+        if(m_AboveTrigger.isAbove == true){ m_ColliderThisObject.isTrigger = false; }
+        else{ m_ColliderThisObject.isTrigger = true; }
     }
+
+
+    // OLD CODE:
+    // IN Update:
+    // void Update(){
+        //// If we trigger the "above" trigger again and weve already disabled collision, enable the collision
+        //if (m_CollisionDisabled == true && m_AboveTrigger.isAbove == true) 
+        //{
+        //    m_CollisionDisabled = false;
+        //    Physics2D.IgnoreCollision(m_ColliderIgnoredObject, m_ColliderThisObject, false);
+        //}
+    //}
+
+    //void OnCollisionEnter2D(Collision2D a_CollisionInfo)
+    //{
+    //    if (!m_AboveTrigger.isAbove) // If they are not in contact with the "above" trigger
+    //    {
+    //        m_ColliderIgnoredObject = a_CollisionInfo.collider; // store the object so we can enable the collision again later.
+    //        Physics2D.IgnoreCollision(m_ColliderIgnoredObject, m_ColliderThisObject);
+    //        m_CollisionDisabled = true;
+    //    }
+    //}
+
 }
