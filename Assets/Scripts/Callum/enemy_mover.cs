@@ -13,7 +13,8 @@ public class enemy_mover : MonoBehaviour {
 	public GameObject _platform;	
 
 	private bool _going_left = true;
-	private bool _last_left = true;
+	private bool _just_switched = false;
+	private bool _first_collision = false;
 	private Rigidbody2D _rb;
 
 	void Start () {
@@ -22,6 +23,7 @@ public class enemy_mover : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
+		_just_switched = false;
 		switch(_type){
 		case enemy_types.patrol:
 		{
@@ -36,17 +38,16 @@ public class enemy_mover : MonoBehaviour {
 		case enemy_types.jump_move:
 		{
 			move();
-			jump_vert(_last_left != _going_left);
+			jump_vert(_just_switched);
 			break;
 		}
 		}
-		_last_left = _going_left;
 	}
 	bool detect_ground()
 	{
 		//fucking horrible
 		Vector2 us = new Vector2(transform.position.x+(_going_left ?1.5f:-1.5f), transform.position.y-0.5f);
-		Debug.DrawRay(us, new Vector2((_going_left ? 1 : -1), -1).normalized, Color.green);
+		//Debug.DrawRay(us, new Vector2((_going_left ? 1 : -1), -1).normalized, Color.green);
 		return(Physics2D.Raycast(us, new Vector2((_going_left ? -1 : 1), -1).normalized, 5, LayerMask.GetMask("Platform")).collider != null);
 	}
 
@@ -56,6 +57,7 @@ public class enemy_mover : MonoBehaviour {
 			transform.position = new Vector2((transform.position.x + (_going_left ? _speed : -_speed)*Time.deltaTime), transform.position.y);
 		else {
 			_going_left = !_going_left;
+			_just_switched = true;
 			flip ();
 		}
 	}
