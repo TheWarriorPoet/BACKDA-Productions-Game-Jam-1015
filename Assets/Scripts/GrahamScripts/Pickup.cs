@@ -18,9 +18,6 @@ using System.Collections.Generic;
 [ExecuteInEditMode]
 public class Pickup : MonoBehaviour {
 
-    [Tooltip("The scene manager in this scene")]
-    public SceneManager_Base m_SceneManager;
-
     [Tooltip("Sets the Type of Pickup")]
     public Type m_PickupType;
     private Type m_LastFramePickupType; // To detect if its changed in the inspector in runtime.
@@ -29,6 +26,8 @@ public class Pickup : MonoBehaviour {
     [Range(0, 50)]
     public int m_SizeScalar = 1;
     private int m_SizeScalarLastFrame;
+
+    private SceneManager_MainGame m_SceneManager;
 
     public Sprite m_Cabbage;
     public Sprite m_Celery;
@@ -56,6 +55,10 @@ public class Pickup : MonoBehaviour {
         SetPickUpType(m_PickupType);
         m_LastFramePickupType = m_PickupType;
         m_SizeScalarLastFrame = m_SizeScalar;
+
+        // Slightly hacky, but as it will only work for SceneManager_Main Game, i feel a public
+        // variable would imply it works elsewhere
+        m_SceneManager = GameObject.Find("SceneManager").GetComponent<SceneManager_MainGame>();
     }
 
     void Update()
@@ -137,57 +140,39 @@ public class Pickup : MonoBehaviour {
     {
         if(a_Collider2D.tag == "Player")
         {
-            // This is a hack to allow this to work in both the main scene and my test scene.
-            // In the final version, will just use mainGame public variable.
-            SceneManager_Graham m_RefSceneManagerGraham = null;
             SceneManager_MainGame m_RefSceneManagerMain = null;
-            if (m_SceneManager.name == "SceneManager")
-            {
-                // Currently in main game screen
-                m_RefSceneManagerMain = m_SceneManager as SceneManager_MainGame;
-            }
-            else if(m_SceneManager.name == "SceneManagerTest")
-            {
-                // currently in graham test scene
-                m_RefSceneManagerGraham = m_SceneManager as SceneManager_Graham;
-            }
+            m_RefSceneManagerMain = m_SceneManager;
 
             switch(m_PickupType)
             {
                 case Type.eCheeseBurger:
                 {
-                    if(m_RefSceneManagerGraham != null) { m_RefSceneManagerGraham.playerHealth += 4; };
-                    if (m_RefSceneManagerMain != null) { m_RefSceneManagerMain.playerHealth += 4; };
+                    m_RefSceneManagerMain.playerHealth += 4;
                     break;
                 }
                 case Type.eHotDog:
                 {
-                    if (m_RefSceneManagerGraham != null) { m_RefSceneManagerGraham.playerHealth += 3; };
-                    if (m_RefSceneManagerMain != null) { m_RefSceneManagerMain.playerHealth += 3; };
+                    m_RefSceneManagerMain.playerHealth += 3;
                     break;
                 }
                 case Type.eChocolate:
                 {
-                    if (m_RefSceneManagerGraham != null) { m_RefSceneManagerGraham.playerHealth += 2; };
-                    if (m_RefSceneManagerMain != null) { m_RefSceneManagerMain.playerHealth += 2; };
+                    m_RefSceneManagerMain.playerHealth += 2;
                     break;
                 }
                 case Type.eFries:
                 {
-                    if (m_RefSceneManagerGraham != null) { m_RefSceneManagerGraham.playerHealth += 2; };
-                    if (m_RefSceneManagerMain != null) { m_RefSceneManagerMain.playerHealth += 2; };
+                    m_RefSceneManagerMain.playerHealth += 2;
                     break;
                 }
                 case Type.eCabbage:
                 {
-                    if (m_RefSceneManagerGraham != null) { m_RefSceneManagerGraham.playerHealth -= 5; };
-                    if (m_RefSceneManagerMain != null) { m_RefSceneManagerMain.playerHealth -= 5; };
+                    m_RefSceneManagerMain.playerHealth -= 5;
                     break;
                 }
                 case Type.eCelery:
                 {
-                    if (m_RefSceneManagerGraham != null) { m_RefSceneManagerGraham.playerHealth -= 3; };
-                    if (m_RefSceneManagerMain != null) { m_RefSceneManagerMain.playerHealth -= 3; };
+                    m_RefSceneManagerMain.playerHealth -= 3;
                     break;
                 }
                 //case Type.eSundae: // NO IMAGE
