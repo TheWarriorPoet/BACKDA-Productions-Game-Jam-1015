@@ -18,7 +18,6 @@ public class platform_mover_v2d : MonoBehaviour {
 		_orig_pos = transform.position;
 	}
 	
-	// Update is called once per frame
 	void FixedUpdate () {
 		switch(_type)
 		{
