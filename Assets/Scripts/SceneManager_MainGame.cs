@@ -16,11 +16,11 @@ public class SceneManager_MainGame : SceneManager_Base {
     {
         get { return m_MaxHealth; }
     }
-    private int m_MinHealth = 0;
-    public int minHealth
-    {
-        get { return m_MinHealth; }
-    }
+    //private int m_MinHealth = 0;
+    //public int minHealth
+    //{
+    //    get { return m_MinHealth; }
+    //}
 
     // Global Health variable used by A Variety of Scripts to alter and retrieve health.
     // Check with other programmers before changing the name of the parameter, or youll break scripts
@@ -29,7 +29,7 @@ public class SceneManager_MainGame : SceneManager_Base {
     {
         get { return m_PlayerHealth; }
         // Value is clamped between min and max to prevent bugs
-        set { m_PlayerHealth = Mathf.Clamp(value, m_MinHealth, m_MaxHealth);}
+        set { m_PlayerHealth = value;}
     }
 
     public BarScript healthBar;
@@ -43,5 +43,10 @@ public class SceneManager_MainGame : SceneManager_Base {
 	void Update () {
         //print(((float)m_PlayerHealth / (float)m_MaxHealth).ToString());
         healthBar.percentageValue = (float)m_PlayerHealth / (float)m_MaxHealth;
+
+        if(m_PlayerHealth > m_MaxHealth)
+        {
+            m_PlayerHealth = m_MaxHealth;
+        }
     }
 }
