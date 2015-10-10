@@ -18,6 +18,23 @@ public class AudioSpawner : MonoBehaviour {
 
     public GameObject m_DefaultPosititon;
 
+    // Storage of any volume changes.
+    private float m_Volume = 1.0f;
+
+    // Provide a percentage between 0.0 and 1.0, sets the audio volume of every object it has in the list.
+    public void ChangeVolume(float a_Percentage)
+    {
+        a_Percentage = Mathf.Clamp(a_Percentage, 0.0f, 1.0f);
+
+        // This is not something we really should be doing for a dictionary
+        // We do need a way to set volume though, and this seems to be the way to do it.
+        foreach(var g in m_AudioMap)
+        {
+            g.Value.GetComponent<AudioSource>().volume = a_Percentage;
+        }
+        m_Volume = a_Percentage;
+    }
+
     // Finds the Audio Source stored at that key and returns it. Will return null if none found.
     public AudioSource RetrieveAudioByUniqueName(string a_UniqueName)
     {
@@ -52,6 +69,7 @@ public class AudioSpawner : MonoBehaviour {
         newObject.transform.position = m_DefaultPosititon.transform.position;
         AudioSource attachedAudioSource = newObject.AddComponent<AudioSource>();
         attachedAudioSource.clip = a_AudioTrack;
+        attachedAudioSource.volume = m_Volume;
         if (a_PlayNow)
         {
             attachedAudioSource.playOnAwake = true; // Should play in the next frame
@@ -72,6 +90,7 @@ public class AudioSpawner : MonoBehaviour {
         newObject.transform.position = a_Position.transform.position;
         AudioSource attachedAudioSource = newObject.AddComponent<AudioSource>();
         attachedAudioSource.clip = a_AudioTrack;
+        attachedAudioSource.volume = m_Volume;
         if (a_PlayNow)
         {
             attachedAudioSource.playOnAwake = true; // Should play in the next frame
@@ -93,6 +112,7 @@ public class AudioSpawner : MonoBehaviour {
         newObject.transform.SetParent(a_ParentTransform, true);
         AudioSource attachedAudioSource = newObject.AddComponent<AudioSource>();
         attachedAudioSource.clip = a_AudioTrack;
+        attachedAudioSource.volume = m_Volume;
         if (a_PlayNow)
         {
             attachedAudioSource.playOnAwake = true; // Should play in the next frame
@@ -114,6 +134,7 @@ public class AudioSpawner : MonoBehaviour {
         newObject.transform.SetParent(a_ParentTransform, true);
         AudioSource attachedAudioSource = newObject.AddComponent<AudioSource>();
         attachedAudioSource.clip = a_AudioTrack;
+        attachedAudioSource.volume = m_Volume;
         if (a_PlayNow)
         {
             attachedAudioSource.playOnAwake = true; // Should play in the next frame
