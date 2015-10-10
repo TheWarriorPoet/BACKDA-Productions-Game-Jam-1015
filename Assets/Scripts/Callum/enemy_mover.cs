@@ -25,36 +25,42 @@ public class enemy_mover : MonoBehaviour {
 		switch(this._type){
 		case enemy_types.patrol:
 		{
-			if(detect_ground()){
-				this.transform.position = new Vector2(this.transform.position.x + (this._going_left ? this._speed : -this._speed), this.transform.position.y);
-			}
-			else 
-				this._going_left = !this._going_left;
+			this.move ();
 			break;
 		}
 		case enemy_types.jump:
 		{
-			if(this._rb.velocity.y.Equals(0.0f))
-				this._rb.AddForce(new Vector2(0.0f, this._jump_height), ForceMode2D.Impulse);
+			this.jump_vert(this._rb.velocity.y.Equals(0.0f));
 			break;
 		}
 		case enemy_types.jump_move:
 		{
-			if(detect_ground()){
-				this.transform.position = new Vector2(this.transform.position.x + (this._going_left ? this._speed : -this._speed), this.transform.position.y);
-			}
-			else 
-				this._going_left = !this._going_left;	
-			if(this._rb.velocity.y.Equals(0.0f) && this._last_left !=this. _going_left)
-				this._rb.AddForce(new Vector2(0.0f, this._jump_height), ForceMode2D.Impulse);
+			this.move();
+			this.jump_vert(this._rb.velocity.y.Equals(0.0f) && this._last_left !=this. _going_left);
 			break;
 		}
 		}
-		_last_left = _going_left;
+		this._last_left = this._going_left;
 	}
 	bool detect_ground()
 	{
 		Vector2 us = new Vector2(this.transform.position.x+(this._going_left ? 0.5f : -0.5f), this.transform.position.y);
 		return (Physics2D.Raycast(us, new Vector2(us.x, us.y-2)).collider != null);
 	}
+
+	void move()
+	{
+		if(detect_ground())
+			this.transform.position = new Vector2(this.transform.position.x + (this._going_left ? this._speed : -this._speed), this.transform.position.y);
+		else 
+			this._going_left = !this._going_left;
+	}
+
+	void jump_vert(bool state)
+	{
+		if(state)
+			this._rb.AddForce(new Vector2(0.0f, this._jump_height), ForceMode2D.Impulse);
+	}
+
+
 }
