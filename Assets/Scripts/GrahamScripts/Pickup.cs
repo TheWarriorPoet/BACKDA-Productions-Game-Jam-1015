@@ -101,27 +101,27 @@ public class Pickup : MonoBehaviour {
                 break;
             case Type.eCelery:
                 attachedgameObject.GetComponent<SpriteRenderer>().sprite = m_Celery;
-                attachedgameObject.transform.localScale = new Vector3(0.60674f, 1, 0) * 
+                attachedgameObject.transform.localScale = new Vector3(1, 1, 0) * 
                     ((float)m_SizeScalar / 10.0f);
                 break;
             case Type.eCheeseBurger:
                 attachedgameObject.GetComponent<SpriteRenderer>().sprite = m_CheeseBurger;
-                attachedgameObject.transform.localScale = new Vector3(1.7f, 1, 0) * 
+                attachedgameObject.transform.localScale = new Vector3(1, 1, 0) * 
                     ((float)m_SizeScalar / 10.0f);
                 break;
             case Type.eChocolate:
                 attachedgameObject.GetComponent<SpriteRenderer>().sprite = m_Chocolate;
-                attachedgameObject.transform.localScale = new Vector3(0.73299f, 1, 0) * 
+                attachedgameObject.transform.localScale = new Vector3(1, 1, 0) * 
                     ((float)m_SizeScalar / 10.0f);
                 break;
             case Type.eFries:
                 attachedgameObject.GetComponent<SpriteRenderer>().sprite = m_Chips;
-                attachedgameObject.transform.localScale = new Vector3(0.55700f, 1, 0) * 
+                attachedgameObject.transform.localScale = new Vector3(1, 1, 0) * 
                     ((float)m_SizeScalar / 10.0f);
                 break;
             case Type.eHotDog:
                 attachedgameObject.GetComponent<SpriteRenderer>().sprite = m_Hotdog;
-                attachedgameObject.transform.localScale = new Vector3(1.33484f, 1, 0) * 
+                attachedgameObject.transform.localScale = new Vector3(1, 1, 0) * 
                     ((float)m_SizeScalar / 10.0f);
                 break;
             //case Type.eSundae: // NO Image
