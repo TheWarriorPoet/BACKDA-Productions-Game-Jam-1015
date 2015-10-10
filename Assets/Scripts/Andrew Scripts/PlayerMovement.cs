@@ -135,16 +135,16 @@ public class PlayerMovement : MonoBehaviour
         }
         if (m_Idle)
         {
-            if (m_facingRight)
+            if (m_facingRight && !m_Jumping)
                 m_PlayerAnimator.Play("Kid_idle");
-            if (!m_facingRight)
+            else if (!m_facingRight && !m_Jumping)
                 m_PlayerAnimator.Play("Kid_idle_left");
         }
         if (m_Jumping)
         {
             if (m_facingRight)
                 m_PlayerAnimator.Play("Kid_jumping");
-            if (!m_facingRight)
+            else if (!m_facingRight)
                 m_PlayerAnimator.Play("Kid_jumping_left");
         }
 
