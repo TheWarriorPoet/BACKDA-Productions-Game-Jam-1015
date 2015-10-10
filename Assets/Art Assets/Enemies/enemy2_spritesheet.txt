@@ -1,0 +1,3 @@
+enemywithcarrot_1 = 0 0 400 421
+enemywithcarrot_2 = 400 0 400 421
+enemywithcarrot_3 = 0 421 400 421
