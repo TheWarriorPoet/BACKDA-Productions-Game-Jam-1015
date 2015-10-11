@@ -44,10 +44,6 @@ public class WinStateController : MonoBehaviour {
     [Range(0, 100)]
     public int m_HealthLostIfTimerExpires = 50;
 
-    public Sprite m_AniFrame1;
-    public Sprite m_AniFrame2;
-    public Sprite m_AniFrame3;
-
     private int m_TrackedHealth;
     private int m_MaxHealth;
 
@@ -64,12 +60,13 @@ public class WinStateController : MonoBehaviour {
     }
 
     private bool m_WinTriggeredAnimation = false;
-    private int m_SwitchCount = 0;
-    private float m_DurationSwitch = 0.5f;
+    private float m_WinTriggeredDuration = 2.0f;
     private float m_AccumulatedDeltaTimeWinTrigger = 0;
 
+    public Sprite m_SittingOnCouch;
 
-	void Start () {
+
+    void Start () {
         m_MaxHealth = m_SceneManager.maxHealth;
         m_TrackedHealth = m_SceneManager.playerHealth;
     }
@@ -77,7 +74,14 @@ public class WinStateController : MonoBehaviour {
 	void Update () {
         if (m_WonGame)
         {
-            // If we already won, skip all win checks/processing
+            // If we already won skip to the Scene
+            Application.LoadLevel("WinScreen");
+            return;
+        }
+
+        if (m_WinTriggeredAnimation)
+        {
+            WinTriggeredOngoing();
             return;
         }
 
@@ -105,11 +109,6 @@ public class WinStateController : MonoBehaviour {
                 WinTriggered();
             }
         }
-        if (m_WinTriggeredAnimation)
-        {
-            WinTriggeredOngoing();
-        }
-
 	}
     
     // Should include any other kinds of checks we want to include for sofa spawning
@@ -175,31 +174,16 @@ public class WinStateController : MonoBehaviour {
     private void WinTriggered()
     {
         GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>().enabled = false;
+        m_CurrentSofa.GetComponent<SpriteRenderer>().sprite = m_SittingOnCouch;
         m_WinTriggeredAnimation = true;
     }
 
     private void WinTriggeredOngoing()
     {
         m_AccumulatedDeltaTimeWinTrigger += Time.deltaTime;
-        if(m_AccumulatedDeltaTimeWinTrigger > m_DurationSwitch)
-        {
-            m_AccumulatedDeltaTimeWinTrigger = 0;
-            if(m_SwitchCount == 0){
-                m_CurrentSofa.GetComponent<SpriteRenderer>().sprite = m_AniFrame1;
-            }
-            else if(m_SwitchCount == 1){
-                m_CurrentSofa.GetComponent<SpriteRenderer>().sprite = m_AniFrame2;
-            }
-            else if(m_SwitchCount == 2){
-                m_CurrentSofa.GetComponent<SpriteRenderer>().sprite = m_AniFrame3;
-            }
-            m_SwitchCount++;
-        }
-
-        if(m_SwitchCount == 3)
+        if(m_AccumulatedDeltaTimeWinTrigger > m_WinTriggeredDuration)
         {
             m_WinTriggeredAnimation = false;
-            Destroy(m_CurrentSofa);
             m_WonGame = true;
         }
     }
