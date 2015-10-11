@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//////////////////////////////////////////////////////////////////////
+// Author: Graham Johnston
+// Date Created: 10/10/2015
+// Brief:  A Basic loss state controller, that checks for loss conditions
+//      then implements a response.
+//////////////////////////////////////////////////////////////////////
+
 public class LossStateController : MonoBehaviour {
 
     [Tooltip("The Main Scene Scene Manager")]
@@ -36,6 +43,7 @@ public class LossStateController : MonoBehaviour {
     void LossConditionsTriggered()
     {
         m_LossTriggered = true;
+        Application.LoadLevel("MainGame002");
         // Note : Can include other conditions that are set when the loss is triggered.
     }
 
