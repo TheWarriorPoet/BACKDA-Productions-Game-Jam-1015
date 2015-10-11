@@ -44,6 +44,7 @@ public class SceneManager_MainGame : SceneManager_Base {
 	
 	// Update is called once per frame
 	void Update () {
+        m_PlayerHealth += 1;
         if (m_PlayerHealth > m_MaxHealth)
         {
             m_PlayerHealth = m_MaxHealth;

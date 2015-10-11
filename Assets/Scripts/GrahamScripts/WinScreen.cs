@@ -9,7 +9,7 @@ public class WinScreen : MonoBehaviour {
     public Sprite Frame2;
     public Sprite Frame3;
 
-    private float m_TimeBetweenFrames = 0.7f;
+    private float m_TimeBetweenFrames = 1.5f;
     private float m_AccumulatedFrameSwitchTime = 0;
 
 	// Update is called once per frame

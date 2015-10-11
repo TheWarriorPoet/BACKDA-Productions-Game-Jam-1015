@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 //////////////////////////////////////////////////////////////////////
 // Author: Graham Johnston
@@ -15,16 +16,26 @@ public class AudioMuteButton : MonoBehaviour {
 
     private bool m_IsMuted = false;
 
+    public List<AudioSource> m_AudioSources = new List<AudioSource>();
+
     public void MuteButtonPress()
     {
         m_IsMuted = !m_IsMuted;
         if (m_IsMuted)
         {
             m_AudioSpawner.ChangeVolume(0.0f);
+            foreach(AudioSource a in m_AudioSources)
+            {
+                a.volume = 0.0f;
+            }
         }
         else
         {
             m_AudioSpawner.ChangeVolume(1.0f);
+            foreach (AudioSource a in m_AudioSources)
+            {
+                a.volume = 1.0f;
+            }
         }
     }
 }
