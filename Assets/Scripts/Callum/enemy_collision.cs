@@ -17,9 +17,9 @@ public class enemy_collision : MonoBehaviour {
 	{
 		if(other.gameObject.tag == "Player"){
 			if (this.tag == "Enemy1")
-				_scene_manage.playerHealth -= (int)((enemy_1_damage/100)*_scene_manage.playerHealth);
+				_scene_manage.playerHealth -= (int)((enemy_1_damage/100)*_scene_manage.maxHealth);
 			else if (this.tag == "Enemy2")
-				_scene_manage.playerHealth -= (int)((enemy_2_damage/100)*_scene_manage.playerHealth);
+				_scene_manage.playerHealth -= (int)((enemy_2_damage/100)*_scene_manage.maxHealth);
 		}
 	}
 }
