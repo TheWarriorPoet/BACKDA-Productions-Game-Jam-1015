@@ -59,8 +59,14 @@ public class WinStateController : MonoBehaviour {
         get { return m_SofaSpawned; } // Has triggered the win conditions for the Game/level
     }
 
+    private bool m_WinTriggeredAnimation = false;
+    private float m_WinTriggeredDuration = 2.0f;
+    private float m_AccumulatedDeltaTimeWinTrigger = 0;
 
-	void Start () {
+    public Sprite m_SittingOnCouch;
+
+
+    void Start () {
         m_MaxHealth = m_SceneManager.maxHealth;
         m_TrackedHealth = m_SceneManager.playerHealth;
     }
@@ -68,7 +74,14 @@ public class WinStateController : MonoBehaviour {
 	void Update () {
         if (m_WonGame)
         {
-            // If we already won, skip all win checks/processing
+            // If we already won skip to the Scene
+            Application.LoadLevel("WinScreen");
+            return;
+        }
+
+        if (m_WinTriggeredAnimation)
+        {
+            WinTriggeredOngoing();
             return;
         }
 
@@ -96,7 +109,6 @@ public class WinStateController : MonoBehaviour {
                 WinTriggered();
             }
         }
-
 	}
     
     // Should include any other kinds of checks we want to include for sofa spawning
@@ -124,7 +136,7 @@ public class WinStateController : MonoBehaviour {
         }
 
         // Add in a random offset from the player position
-        spawnPosition.x = randomOffsetX;
+        spawnPosition.x += randomOffsetX;
         spawnPosition.y = spawnPosition.y + Random.Range(m_YMinOffset, m_YMaximumOffset); // Always above the player
 
         // Instantiate the prefab and spawn it at the position we just calculated
@@ -161,9 +173,18 @@ public class WinStateController : MonoBehaviour {
 
     private void WinTriggered()
     {
-        Destroy(m_CurrentSofa);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>().enabled = false;
+        m_CurrentSofa.GetComponent<SpriteRenderer>().sprite = m_SittingOnCouch;
+        m_WinTriggeredAnimation = true;
+    }
 
-        // TO DO: Level switching or some kind of menu/game resolution.
-        m_WonGame = true;
+    private void WinTriggeredOngoing()
+    {
+        m_AccumulatedDeltaTimeWinTrigger += Time.deltaTime;
+        if(m_AccumulatedDeltaTimeWinTrigger > m_WinTriggeredDuration)
+        {
+            m_WinTriggeredAnimation = false;
+            m_WonGame = true;
+        }
     }
 }
