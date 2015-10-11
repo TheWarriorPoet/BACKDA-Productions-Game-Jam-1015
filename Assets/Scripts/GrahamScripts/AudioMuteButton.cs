@@ -18,23 +18,39 @@ public class AudioMuteButton : MonoBehaviour {
 
     public List<AudioSource> m_AudioSources = new List<AudioSource>();
 
+    void Start()
+    {
+        float m_AudioVolume = PlayerPrefs.GetFloat("AudioVolume", 1.0f);
+        if (m_AudioSpawner != null) { m_AudioSpawner.ChangeVolume(m_AudioVolume); }
+        foreach (AudioSource a in m_AudioSources)
+        {
+            a.volume = m_AudioVolume;
+        }
+        if (m_AudioVolume < 0.1f)
+        {
+            m_IsMuted = true;
+        }
+    }
+
     public void MuteButtonPress()
     {
         m_IsMuted = !m_IsMuted;
         if (m_IsMuted)
         {
-            m_AudioSpawner.ChangeVolume(0.0f);
-            foreach(AudioSource a in m_AudioSources)
+            if (m_AudioSpawner != null) { m_AudioSpawner.ChangeVolume(0.0f); }
+            foreach (AudioSource a in m_AudioSources)
             {
                 a.volume = 0.0f;
+                PlayerPrefs.SetFloat("AudioVolume", 0.0f);
             }
         }
         else
         {
-            m_AudioSpawner.ChangeVolume(1.0f);
+            if (m_AudioSpawner != null) { m_AudioSpawner.ChangeVolume(1.0f); }
             foreach (AudioSource a in m_AudioSources)
             {
                 a.volume = 1.0f;
+                PlayerPrefs.SetFloat("AudioVolume", 1.0f);
             }
         }
     }
