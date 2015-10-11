@@ -44,6 +44,10 @@ public class WinStateController : MonoBehaviour {
     [Range(0, 100)]
     public int m_HealthLostIfTimerExpires = 50;
 
+    public Sprite m_AniFrame1;
+    public Sprite m_AniFrame2;
+    public Sprite m_AniFrame3;
+
     private int m_TrackedHealth;
     private int m_MaxHealth;
 
@@ -58,6 +62,11 @@ public class WinStateController : MonoBehaviour {
     {
         get { return m_SofaSpawned; } // Has triggered the win conditions for the Game/level
     }
+
+    private bool m_WinTriggeredAnimation = false;
+    private int m_SwitchCount = 0;
+    private float m_DurationSwitch = 0.5f;
+    private float m_AccumulatedDeltaTimeWinTrigger = 0;
 
 
 	void Start () {
@@ -96,6 +105,10 @@ public class WinStateController : MonoBehaviour {
                 WinTriggered();
             }
         }
+        if (m_WinTriggeredAnimation)
+        {
+            WinTriggeredOngoing();
+        }
 
 	}
     
@@ -124,7 +137,7 @@ public class WinStateController : MonoBehaviour {
         }
 
         // Add in a random offset from the player position
-        spawnPosition.x = randomOffsetX;
+        spawnPosition.x += randomOffsetX;
         spawnPosition.y = spawnPosition.y + Random.Range(m_YMinOffset, m_YMaximumOffset); // Always above the player
 
         // Instantiate the prefab and spawn it at the position we just calculated
@@ -161,9 +174,33 @@ public class WinStateController : MonoBehaviour {
 
     private void WinTriggered()
     {
-        Destroy(m_CurrentSofa);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>().enabled = false;
+        m_WinTriggeredAnimation = true;
+    }
 
-        // TO DO: Level switching or some kind of menu/game resolution.
-        m_WonGame = true;
+    private void WinTriggeredOngoing()
+    {
+        m_AccumulatedDeltaTimeWinTrigger += Time.deltaTime;
+        if(m_AccumulatedDeltaTimeWinTrigger > m_DurationSwitch)
+        {
+            m_AccumulatedDeltaTimeWinTrigger = 0;
+            if(m_SwitchCount == 0){
+                m_CurrentSofa.GetComponent<SpriteRenderer>().sprite = m_AniFrame1;
+            }
+            else if(m_SwitchCount == 1){
+                m_CurrentSofa.GetComponent<SpriteRenderer>().sprite = m_AniFrame2;
+            }
+            else if(m_SwitchCount == 2){
+                m_CurrentSofa.GetComponent<SpriteRenderer>().sprite = m_AniFrame3;
+            }
+            m_SwitchCount++;
+        }
+
+        if(m_SwitchCount == 3)
+        {
+            m_WinTriggeredAnimation = false;
+            Destroy(m_CurrentSofa);
+            m_WonGame = true;
+        }
     }
 }
