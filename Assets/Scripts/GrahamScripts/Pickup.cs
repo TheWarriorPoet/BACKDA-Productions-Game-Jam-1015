@@ -38,6 +38,8 @@ public class Pickup : MonoBehaviour {
     //public Sprite m_Carrot; // NO IMAGE
     //public Sprite m_Sundae; // NO IMAGE
 
+	public float m_respawnTime = 10;
+
     public enum Type
     {
         eCheeseBurger, // 4%
@@ -192,7 +194,18 @@ public class Pickup : MonoBehaviour {
             }
 
             // Should trigger destruction of pickup.
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
+			StartCoroutine(Respawner(gameObject, m_respawnTime));
         }
     }
+
+
+	public IEnumerator Respawner(GameObject go, float time)
+	{
+		go.GetComponent<Renderer>().enabled = false;
+		go.GetComponent<Collider2D>().enabled = false;
+		yield return new WaitForSeconds(time);		
+		go.GetComponent<Renderer>().enabled = true;
+		go.GetComponent<Collider2D>().enabled = true;
+	}
 }
