@@ -12,6 +12,8 @@ public class SceneManager_MainGame : SceneManager_Base {
     // Min and max health values, to clamp the player health and prevent bugs
     // Read only access to both.
     private int m_MaxHealth = 100;
+	private bool _couch_loaded = false;
+	private GameObject _couch;
     public int maxHealth
     {
         get { return m_MaxHealth; }
@@ -36,7 +38,7 @@ public class SceneManager_MainGame : SceneManager_Base {
 
     // Use this for initialization
     void Start () {
-	
+		_couch = GameObject.Find("Couch");
 	}
 	
 	// Update is called once per frame
@@ -44,9 +46,15 @@ public class SceneManager_MainGame : SceneManager_Base {
         //print(((float)m_PlayerHealth / (float)m_MaxHealth).ToString());
         healthBar.percentageValue = (float)m_PlayerHealth / (float)m_MaxHealth;
 
-        if(m_PlayerHealth > m_MaxHealth)
+        if(m_PlayerHealth > m_MaxHealth || Input.GetKeyDown(KeyCode.T))
         {
             m_PlayerHealth = m_MaxHealth;
+			if(!_couch_loaded)
+			{
+				print("loading...");
+				_couch.GetComponent<couch_collider>()._load_couch = true;
+				_couch_loaded = true;
+			}
         }
     }
 }

@@ -12,6 +12,8 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
+	public bool _move = true;
+
     private bool m_Idle = true;
     private bool m_facingRight = true;
     private bool m_LeftMoving = false;
@@ -38,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+		if(!_move) return;
         ProcessInput();
         MovementUpdate();
     }

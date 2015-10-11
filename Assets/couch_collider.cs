@@ -12,6 +12,7 @@ public class couch_collider : MonoBehaviour {
 	{
 		if(other.gameObject.tag.Equals("Player"))
 		{
+			print ("here");
 			//haahahh
 			other.gameObject.GetComponent<Renderer>().enabled = false;
 			other.gameObject.GetComponent<PlayerMovement>()._move = false;
