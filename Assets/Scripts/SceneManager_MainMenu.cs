@@ -12,4 +12,19 @@ public class SceneManager_MainMenu : SceneManager_Base {
 	void Update () {
 	
 	}
+
+    public void NewGame()
+    {
+        Application.LoadLevel("MainGame002");
+    }
+
+    public void Credits()
+    {
+        Application.LoadLevel("Credits");
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
 }
